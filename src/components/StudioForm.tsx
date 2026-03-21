@@ -11,14 +11,51 @@ export default function StudioForm() {
   const [trustScale, setTrustScale] = useState(10);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setError(null);
+
+    try {
+      const formData = {
+        fullName: (document.getElementById('full-name') as HTMLInputElement)?.value || '',
+        email: (document.getElementById('email') as HTMLInputElement)?.value || '',
+        whatsapp: (document.getElementById('whatsapp') as HTMLInputElement)?.value || '',
+        instagram: (document.getElementById('instagram') as HTMLInputElement)?.value || '',
+        pinterest: (document.getElementById('pinterest') as HTMLInputElement)?.value || '',
+        soundtrack: (document.getElementById('soundtrack') as HTMLInputElement)?.value || '',
+        sourcing: (document.getElementById('sourcing') as HTMLSelectElement)?.value || '',
+        budget: (document.getElementById('budget') as HTMLInputElement)?.value || '',
+        trustScale: trustScale,
+        soulText: (document.getElementById('soul-text') as HTMLTextAreaElement)?.value || '',
+        preferredColor: (document.getElementById('preferred-color') as HTMLInputElement)?.value || '',
+        measurements: (document.getElementById('measurements') as HTMLInputElement)?.value || '',
+        thriftDescription: (document.getElementById('thrift-description') as HTMLInputElement)?.value || '',
+      };
+
+      const response = await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Submission failed');
+      }
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('Submission error:', err);
+      setIsSubmitting(false);
+      setError('Something went wrong. Please try again or contact us directly.');
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   if (isSubmitted) {
@@ -156,20 +193,79 @@ export default function StudioForm() {
           <div className="space-y-12 bg-foreground/[0.02] p-12 md:p-24 rounded-[3rem] border border-border/20">
             <div className="flex justify-between items-end">
                 <Label className="studio-label mb-0 text-[10px]" htmlFor="trust-scale">Vision Trust Scale</Label>
-                <span className="text-6xl font-black italic tracking-tighter leading-none opacity-80">{trustScale}/10</span>
+                <span className="text-6xl font-black italic tracking-tighter leading-none opacity-80" aria-live="polite">{trustScale}/10</span>
             </div>
             <input 
               type="range" 
               id="trust-scale"
               min="1" 
               max="10" 
+              step="1"
               className="w-full accent-foreground h-12 cursor-pointer opacity-80 hover:opacity-100 transition-opacity" 
               value={trustScale} 
               onChange={(e) => setTrustScale(parseInt(e.target.value))}
+              aria-label="Trust scale slider from 1 to 10"
+              aria-valuemin={1}
+              aria-valuemax={10}
+              aria-valuenow={trustScale}
+              aria-valuetext={`${trustScale} out of 10`}
             />
             <div className="flex justify-between text-[10px] uppercase font-black opacity-20 tracking-[0.4em] italic">
               <span>Micro-manage</span>
               <span>Full Creative Freedom</span>
+            </div>
+          </div>
+
+          {/* Thrifting & Custom Sourcing Details */}
+          <div className="space-y-8 pt-8 border-t border-border/10">
+            <div className="space-y-4">
+              <h3 className="text-xs font-black uppercase tracking-[0.6em] opacity-60">Thrifting &amp; Custom Sourcing</h3>
+              <p className="text-[10px] opacity-30 italic leading-relaxed">
+                If you chose THRIFT sourcing, provide details below to help us find the perfect base piece.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              <div className="space-y-4">
+                <Label className="studio-label" htmlFor="preferred-color">Preferred Color</Label>
+                <Input
+                  type="text"
+                  id="preferred-color"
+                  className="studio-input"
+                  placeholder="E.G., INDIGO, VINTAGE WASH"
+                />
+              </div>
+              <div className="space-y-4">
+                <Label className="studio-label" htmlFor="measurements">Measurements (cm)</Label>
+                <Input
+                  type="text"
+                  id="measurements"
+                  className="studio-input"
+                  placeholder="E.G., WAIST 80, LENGTH 95"
+                />
+              </div>
+              <div className="space-y-4">
+                <Label className="studio-label" htmlFor="thrift-description">General Description</Label>
+                <Input
+                  type="text"
+                  id="thrift-description"
+                  className="studio-input"
+                  placeholder="STYLE, ERA, CONDITION"
+                />
+              </div>
+            </div>
+            <div className="bg-foreground/[0.02] p-6 md:p-8 rounded-[2rem] border border-border/20 mt-4">
+              <div className="flex items-start space-x-6">
+                <div className="w-12 h-12 bg-pink-100/50 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">💎</span>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-50">Important Note</p>
+                  <p className="text-xs font-medium opacity-40 italic leading-relaxed">
+                    Please note: Thrifting the base piece will incur an additional service charge.
+                    We&apos;ll provide a detailed quote after reviewing your vision.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -198,6 +294,13 @@ export default function StudioForm() {
           ></Textarea>
         </div>
       </motion.section>
+
+      {/* Error Display */}
+      {error && (
+        <div className="mb-8 p-6 bg-destructive/10 border border-destructive/20 rounded-[2rem] text-center">
+          <p className="text-xs font-black uppercase tracking-[0.4em] text-destructive">{error}</p>
+        </div>
+      )}
 
       <div className="relative group pt-12 pb-48">
         <button 
