@@ -134,9 +134,9 @@ export default function OurVision() {
         <FadeIn delay={0.1}>
           <div className="grid md:grid-cols-2 gap-10 md:gap-14 lg:gap-20 xl:gap-24 items-center">
             <div className="space-y-6 md:space-y-8 order-2 md:order-1">
-              <blockquote className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium leading-relaxed md:leading-loose opacity-70 italic">
-                &quot;Did you know that a single pair of jeans can consume up to 10,000 liters of water during production?&quot;
-              </blockquote>
+              <h3 className="font-cormorant text-xl md:text-2xl lg:text-3xl leading-relaxed opacity-80">
+                Did you know that a single pair of jeans can consume up to 10,000 liters of water during production?
+              </h3>
               <p className="text-sm md:text-base lg:text-lg xl:text-xl font-medium leading-relaxed md:leading-loose opacity-55">
                 At LYVRA, we choose to rescue rather than create. By upcycling and hand-sourcing vintage denim, we give the planet a breather and provide you with a masterpiece.
               </p>
@@ -166,9 +166,9 @@ export default function OurVision() {
               />
             </div>
             <div className="space-y-6 md:space-y-8">
-              <blockquote className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium leading-relaxed md:leading-loose opacity-70 italic">
-                &quot;The artist doesn&apos;t just sew; she enters your world.&quot;
-              </blockquote>
+              <h3 className="font-cormorant text-xl md:text-2xl lg:text-3xl leading-relaxed opacity-80">
+                The artist doesn&apos;t just sew; she enters your world.
+              </h3>
               <p className="text-sm md:text-base lg:text-lg xl:text-xl font-medium leading-relaxed md:leading-loose opacity-55">
                 She seeks to understand your essence to craft a piece that makes everyone stop and ask: &quot;Where did you get that?&quot;. It&apos;s not just a garment; it&apos;s a beautiful, eco-friendly conversation starter that makes you feel amazing while being kind to the Earth.
               </p>

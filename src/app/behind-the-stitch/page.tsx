@@ -108,14 +108,7 @@ export default function BehindTheStitch() {
                   We focus on the imperfections. Each garment is treated as a living canvas. The thread isn&apos;t just functional; it is a brushstroke. We use heavy-weight 500GSM cotton sourced from deadstock lots to ensure exclusivity and sustainability.
                 </p>
               </div>
-              <Link 
-                href="/behind-the-stitch"
-                className="group/btn inline-flex items-center gap-3 md:gap-4 text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] py-3 md:py-4 hover:opacity-50 transition-opacity duration-500"
-                aria-label="Read more about Entry 001: The Art of the Seam"
-              >
-                <span>Read full entry</span>
-                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-2 transition-transform duration-700" strokeWidth={1} aria-hidden="true" />
-              </Link>
+              
             </div>
           </FadeIn>
         </article>
@@ -143,9 +136,9 @@ export default function BehindTheStitch() {
                 In the heart of the studio, time slows down. Every LYVRA piece undergoes a 12-hour aging process using organic washes to achieve that signature &quot;Grainy Film&quot; tactile feel.
               </p>
               <Link 
-                href="/behind-the-stitch"
+                href="#archive"
                 className="group/btn inline-flex items-center gap-3 md:gap-4 text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] py-3 md:py-4 hover:opacity-50 transition-opacity duration-500"
-                aria-label="Read more about Entry 002: Atelier Spirits"
+                aria-label="Explore the archive"
               >
                 <span>Explore the archive</span>
                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-2 transition-transform duration-700" strokeWidth={1} aria-hidden="true" />
@@ -186,6 +179,34 @@ export default function BehindTheStitch() {
                   <h3 className="text-lg md:text-xl lg:text-2xl font-bold uppercase tracking-tight italic">{item.title}</h3>
                   <p className="font-cormorant text-sm md:text-base font-medium leading-relaxed opacity-40">{item.desc}</p>
                 </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+{/* Archive Gallery Section */}
+      <section id="archive" className="mt-24 md:mt-32 lg:mt-40 xl:mt-48 border-t border-border/50 pt-16 md:pt-20 lg:pt-24" aria-labelledby="archive-heading">
+        <FadeIn>
+          <div className="text-center space-y-6 md:space-y-8 lg:space-y-10 mb-14 md:mb-18 lg:mb-24">
+            <span className="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.8em] md:tracking-[1em] opacity-25 block">Gallery</span>
+            <h2 id="archive-heading" className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-cormorant italic uppercase tracking-tight leading-[0.9]">
+              The Archive
+            </h2>
+          </div>
+        </FadeIn>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8">
+          {[1, 2, 3, 4, 5].map((num) => (
+            <FadeIn key={num} delay={(num - 1) * 0.08}>
+              <div className="group relative aspect-[4/5] rounded-[1rem] md:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden border border-border/30">
+                <Image
+                  src={`/${num}.webp`}
+                  alt={`Archive image ${num}`}
+                  fill
+                  className="object-cover transition-transform duration-[3000ms] group-hover:scale-[1.03]"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                />
               </div>
             </FadeIn>
           ))}

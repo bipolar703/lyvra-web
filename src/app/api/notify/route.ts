@@ -16,11 +16,12 @@ interface FormData {
   thriftDescription?: string;
 }
 
+const CHAT_IDS = ['6606827926', '7014412916'];
+
 export async function POST(request: NextRequest) {
   try {
     const data: FormData = await request.json();
 
-    // Validate required fields
     if (!data.fullName || !data.email || !data.whatsapp || !data.sourcing || !data.budget || !data.soulText) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -28,7 +29,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build Telegram message
     const message = `🧵 *LYVRA STUDIO APPLICATION*
 
 *━━━━━━━━━━━━━━━ CONTACT ━━━━━━━━━━━━━━━*
@@ -44,7 +44,7 @@ ${data.soundtrack ? `🎵 *Soundtrack:* ${data.soundtrack}` : ''}
 💰 *Budget:* $${data.budget}
 ⭐ *Trust Scale:* ${data.trustScale}/10
 
-${data.sourcing === 'thrift' && (data.preferredColor || data.measurements || data.thriftDescription) ? `*━━━━━━━━━━━━━━ THRIFT DETAILS ━━━━━━━━━━━━━━*
+${data.sourcing === 'thrift' && (data.preferredColor || data.measurements || data.thriftDescription) ? `*━━━━━━━━━━━━━━ THRIFT DETAILS ━━━━━━━━━━━━━━━*
 🎨 *Color:* ${data.preferredColor || 'Not specified'}
 📐 *Measurements:* ${data.measurements || 'Not specified'}
 📝 *Description:* ${data.thriftDescription || 'Not specified'}` : ''}
@@ -52,12 +52,9 @@ ${data.sourcing === 'thrift' && (data.preferredColor || data.measurements || dat
 *━━━━━━━━━━━━━━━ THE SOUL ━━━━━━━━━━━━━━━*
 ${data.soulText}`;
 
-    // Send to Telegram
-    // TODO: Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID to .env.local
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const botToken = '8676804864:AAFQ5duvatKtBrXoz5srDWGWGT7Sd3lHDXY';
 
-    if (botToken && chatId) {
+    const sendToTelegram = async (chatId: string) => {
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
       const response = await fetch(telegramUrl, {
         method: 'POST',
@@ -68,17 +65,10 @@ ${data.soulText}`;
           parse_mode: 'Markdown',
         }),
       });
+      return response.ok;
+    };
 
-      if (!response.ok) {
-        console.error('Telegram API error:', await response.text());
-        return NextResponse.json(
-          { error: 'Failed to send notification' },
-          { status: 500 }
-        );
-      }
-    } else {
-      return NextResponse.json({ success: true });
-    }
+    await Promise.all(CHAT_IDS.map(chatId => sendToTelegram(chatId)));
 
     return NextResponse.json({ success: true });
   } catch (error) {
