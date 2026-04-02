@@ -52,7 +52,8 @@ ${data.sourcing === 'thrift' && (data.preferredColor || data.measurements || dat
 *━━━━━━━━━━━━━━━ THE SOUL ━━━━━━━━━━━━━━━*
 ${data.soulText}`;
 
-    // Send to Telegram (requires BOT_TOKEN and CHAT_ID env vars)
+    // Send to Telegram
+    // TODO: Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID to .env.local
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -76,8 +77,7 @@ ${data.soulText}`;
         );
       }
     } else {
-      // Log for development when env vars are not set
-      console.log('[DEV] Telegram notification (env vars not set):', message);
+      return NextResponse.json({ success: true });
     }
 
     return NextResponse.json({ success: true });

@@ -1,9 +1,7 @@
 "use client"
 
 import { motion, type Variants } from "framer-motion"
-
-// LYVRA signature easing curve — used across all animations
-export const LYVRA_EASING = [0.22, 1, 0.36, 1] as const
+import { LYVRA_EASING } from "@/lib/constants"
 
 // Subtle fade-in with gentle upward motion
 // Designed to be barely noticeable — elegant, not flashy

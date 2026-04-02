@@ -6,17 +6,23 @@ import { motion } from "framer-motion"
 import { useRef } from "react"
 import { ArrowRight } from "lucide-react"
 import { FadeIn } from "@/components/FadeIn"
+import Header from "@/components/Header"
 
-// Subtle motion constants
-const SUBTLE_EASE = [0.22, 1, 0.36, 1] as const
-const FAST_DURATION = 0.35
+const FAST_DURATION = 0.3
 const NORMAL_DURATION = 0.5
+const SUBTLE_EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1]
 
 export default function BehindTheStitch() {
   const containerRef = useRef(null)
+  // Dummy ref for Header - this page doesn't have a hero section
+  const heroRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div ref={containerRef} className="container mx-auto px-4 md:px-6 lg:px-8 py-20 md:py-28 lg:py-32 max-w-7xl">
+    <>
+      {/* Smart Header */}
+      <Header heroRef={heroRef} />
+      
+      <div ref={containerRef} className="container mx-auto px-4 md:px-6 lg:px-8 pt-24 md:pt-28 lg:pt-32 max-w-7xl">
       {/* ──────────────────────────────────────────────────────────────
          HEADER — Minimal entrance animation
          ────────────────────────────────────────────────────────────── */}
@@ -37,7 +43,7 @@ export default function BehindTheStitch() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: NORMAL_DURATION, ease: SUBTLE_EASE }}
-            className="font-script text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] tracking-tight leading-[0.88]"
+            className="font-cormorant text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] tracking-tight leading-[0.88]"
           >
             Behind the Stitch
           </motion.h1>
@@ -50,7 +56,7 @@ export default function BehindTheStitch() {
           className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-20 pt-8 md:pt-12 lg:pt-16 border-t border-border/50"
         >
           <div className="relative">
-            <p className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium leading-relaxed md:leading-loose opacity-75 italic">
+            <p className="font-cormorant text-base md:text-lg lg:text-xl xl:text-2xl font-medium leading-relaxed md:leading-loose opacity-75 italic">
               Every garment has a story. From the thrill of finding the perfect vintage
               piece to the hours spent re-imagining its future. We don&apos;t just sew; 
               we breathe new life into fabric. This is the rhythm of the needle and the 
@@ -91,19 +97,19 @@ export default function BehindTheStitch() {
           
           <FadeIn delay={0.1}>
             <div className="max-w-xl space-y-6 md:space-y-8 lg:space-y-10">
-              <h2 id="story-1-heading" className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-script uppercase tracking-tight leading-[0.92]">
+              <h2 id="story-1-heading" className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-cormorant uppercase tracking-tight leading-[0.92]">
                 The Art of the Seam
               </h2>
               <div className="flex gap-4 md:gap-6">
                 <div className="flex-shrink-0 pt-2 md:pt-3" aria-hidden="true">
                   <div className="w-6 md:w-8 h-px bg-foreground/15" />
                 </div>
-                <p className="text-sm md:text-base lg:text-lg xl:text-xl font-medium leading-relaxed md:leading-loose opacity-50">
+<p className="font-cormorant text-sm md:text-base lg:text-lg xl:text-xl font-medium leading-relaxed md:leading-loose opacity-50">
                   We focus on the imperfections. Each garment is treated as a living canvas. The thread isn&apos;t just functional; it is a brushstroke. We use heavy-weight 500GSM cotton sourced from deadstock lots to ensure exclusivity and sustainability.
                 </p>
               </div>
               <Link 
-                href="#"
+                href="/behind-the-stitch"
                 className="group/btn inline-flex items-center gap-3 md:gap-4 text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] py-3 md:py-4 hover:opacity-50 transition-opacity duration-500"
                 aria-label="Read more about Entry 001: The Art of the Seam"
               >
@@ -130,14 +136,14 @@ export default function BehindTheStitch() {
           
           <FadeIn delay={0.2}>
             <div className="space-y-6 md:space-y-8 lg:space-y-10">
-              <h2 id="story-2-heading" className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-script uppercase tracking-tight leading-[0.92]">
+              <h2 id="story-2-heading" className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-cormorant uppercase tracking-tight leading-[0.92]">
                 Atelier Spirits
               </h2>
               <p className="text-sm md:text-base lg:text-lg xl:text-xl font-medium leading-relaxed md:leading-loose opacity-50">
                 In the heart of the studio, time slows down. Every LYVRA piece undergoes a 12-hour aging process using organic washes to achieve that signature &quot;Grainy Film&quot; tactile feel.
               </p>
               <Link 
-                href="#"
+                href="/behind-the-stitch"
                 className="group/btn inline-flex items-center gap-3 md:gap-4 text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] py-3 md:py-4 hover:opacity-50 transition-opacity duration-500"
                 aria-label="Read more about Entry 002: Atelier Spirits"
               >
@@ -156,7 +162,7 @@ export default function BehindTheStitch() {
         <FadeIn>
           <div className="text-center space-y-6 md:space-y-8 lg:space-y-10 mb-14 md:mb-18 lg:mb-24">
             <span className="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.8em] md:tracking-[1em] opacity-25 block">Our DNA</span>
-            <h2 id="methodology-heading" className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-script italic uppercase tracking-tight leading-[0.9]">
+            <h2 id="methodology-heading" className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-cormorant italic uppercase tracking-tight leading-[0.9]">
               Core Methodologies
             </h2>
           </div>
@@ -178,7 +184,7 @@ export default function BehindTheStitch() {
                 </div>
                 <div className="space-y-3 md:space-y-4">
                   <h3 className="text-lg md:text-xl lg:text-2xl font-bold uppercase tracking-tight italic">{item.title}</h3>
-                  <p className="text-sm md:text-base font-medium leading-relaxed opacity-40">{item.desc}</p>
+                  <p className="font-cormorant text-sm md:text-base font-medium leading-relaxed opacity-40">{item.desc}</p>
                 </div>
               </div>
             </FadeIn>
@@ -186,58 +192,7 @@ export default function BehindTheStitch() {
         </div>
       </section>
 
-      {/* ──────────────────────────────────────────────────────────────
-         NEWSLETTER SECTION
-         ────────────────────────────────────────────────────────────── */}
-      <FadeIn>
-        <section className="mt-24 md:mt-32 lg:mt-40 xl:mt-48 bg-primary text-primary-foreground p-8 md:p-12 lg:p-16 xl:p-20 2xl:p-24 rounded-[1.5rem] md:rounded-[2rem] lg:rounded-[2.5rem] xl:rounded-[3rem] overflow-hidden relative" aria-labelledby="newsletter-heading">
-          <div className="absolute top-0 right-0 w-[50vw] h-[50vw] md:w-[40vw] md:h-[40vw] bg-gradient-to-br from-pink-500/10 via-blue-500/5 to-transparent blur-[100px] md:blur-[160px]" aria-hidden="true" />
-          
-          <div className="relative z-10 grid md:grid-cols-2 gap-10 md:gap-14 lg:gap-20 xl:gap-24 items-center">
-            <div className="space-y-6 md:space-y-8 lg:space-y-10">
-              <span className="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.8em] md:tracking-[1em] opacity-35 block">The Collective</span>
-              <h2 id="newsletter-heading" className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[8rem] font-script tracking-tight leading-[0.9]">
-                Join the<br />Collective
-              </h2>
-              <p className="text-sm md:text-base lg:text-lg font-medium opacity-35 tracking-wide uppercase max-w-xs leading-relaxed">
-                Early access to archival drops and atelier insights. Limited entry.
-              </p>
-            </div>
-            <form className="flex flex-col gap-6 md:gap-8" aria-label="Newsletter subscription form">
-              <div className="space-y-4 md:space-y-5">
-                <label htmlFor="newsletter-email" className="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] opacity-35 block">
-                  Communication Channel
-                </label>
-                <div className="relative flex items-center">
-                  <input 
-                    type="email" 
-                    id="newsletter-email"
-                    required
-                    placeholder="YOUR@EMAIL.COM" 
-                    className="w-full bg-transparent border-b-2 border-primary-foreground/15 py-4 md:py-5 lg:py-6 text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold uppercase tracking-tight focus:border-primary-foreground focus:outline-none transition-colors placeholder:opacity-20"
-                    aria-required="true"
-                  />
-                  <button 
-                    type="submit" 
-                    className="absolute right-0 p-3 md:p-4 hover:translate-x-2 transition-transform duration-700"
-                    aria-label="Subscribe to newsletter"
-                  >
-                    <ArrowRight className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10" strokeWidth={1} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 md:gap-5">
-                <div className="size-2 bg-pink-400/60 rounded-full animate-pulse" aria-hidden="true" />
-                <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] md:tracking-[0.35em] opacity-15 underline decoration-pink-400/20">
-                  Elite Membership Agreement
-                </p>
-              </div>
-            </form>
-          </div>
-        </section>
-      </FadeIn>
-
-      {/* Final CTA */}
+{/* Final CTA */}
       <FadeIn>
         <div className="mt-16 md:mt-24 lg:mt-32 text-center">
           <Link
@@ -253,5 +208,6 @@ export default function BehindTheStitch() {
         </div>
       </FadeIn>
     </div>
+    </>
   )
 }

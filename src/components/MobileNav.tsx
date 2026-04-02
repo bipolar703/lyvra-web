@@ -1,29 +1,18 @@
 'use client'
 
 import Link from "next/link"
-import { Menu, X, ArrowRight, Search } from "lucide-react"
+import Image from "next/image"
+import { Menu, X, ArrowRight } from "lucide-react"
 import { 
   Sheet, 
   SheetContent, 
   SheetHeader, 
-  SheetTitle, 
   SheetTrigger,
-  SheetClose
+  SheetClose,
+  SheetTitle
 } from "@/components/ui/sheet"
 import { motion } from "framer-motion"
-import { SearchModal } from "./SearchModal"
-
-const menuItems = [
-  { name: 'Our Vision', href: '/our-vision', id: '01' },
-  { name: 'Behind the Stitch', href: '/behind-the-stitch', id: '02' },
-  { name: 'The Studio', href: '/the-studio', id: '03' },
-]
-
-const socialLinks = [
-  { name: 'Instagram', href: '#' },
-  { name: 'Twitter', href: '#' },
-  { name: 'TikTok', href: '#' },
-]
+import { NAVIGATION_LINKS, SOCIAL_LINKS } from "@/lib/constants"
 
 export default function MobileNav() {
   return (
@@ -31,7 +20,7 @@ export default function MobileNav() {
       <Sheet>
         <SheetTrigger asChild>
           <button 
-            className="p-2 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md transition-all active:scale-95"
+            className="p-2.5 -mr-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md transition-all active:scale-95"
             aria-label="Open navigation menu"
           >
             <Menu className="w-6 h-6 stroke-[1.5]" aria-hidden="true" />
@@ -39,21 +28,20 @@ export default function MobileNav() {
         </SheetTrigger>
         
         <SheetContent 
-          side="right" 
-          className="w-full sm:max-w-md bg-background border-l-0 p-0 flex flex-col focus:outline-none"
-          aria-describedby="mobile-nav-description"
+          side="left" 
+          showCloseButton={false}
+          className="w-full sm:max-w-md bg-background border-r-0 p-0 flex flex-col focus:outline-none"
+          aria-describedby="mobile-nav-title"
         >
-          {/* Screen reader description */}
-          <span id="mobile-nav-description" className="sr-only">
-            Mobile navigation menu with links to Our Vision, Behind the Stitch, and The Studio pages
-          </span>
+          <span id="mobile-nav-title" className="sr-only">Mobile Navigation Menu</span>
           
           {/* Grain Texture Overlay */}
           <div className="absolute inset-0 pointer-events-none opacity-10 noise-bg z-0" aria-hidden="true" />
           
           {/* Header */}
           <SheetHeader className="px-6 py-6 border-b border-border/30 relative z-10 flex flex-row items-center justify-between space-y-0">
-            <SheetTitle className="font-script text-2xl tracking-tight">LYVRA</SheetTitle>
+            <SheetTitle className="sr-only">Mobile Navigation</SheetTitle>
+            <Image src="/logo.svg" alt="LYVRA" width={120} height={40} className="h-8 w-auto" />
             <SheetClose asChild>
               <button 
                 className="p-2 active:scale-90 transition-transform rounded-full hover:bg-accent/50"
@@ -67,7 +55,7 @@ export default function MobileNav() {
           {/* Navigation Links */}
           <nav className="flex-1 flex flex-col justify-center px-6 md:px-8 relative z-10 overflow-y-auto" aria-label="Mobile navigation">
             <ul className="space-y-8 md:space-y-10 py-8">
-              {menuItems.map((item, i) => (
+              {NAVIGATION_LINKS.map((item, i) => (
                 <li key={item.name}>
                   <SheetClose asChild>
                     <Link 
@@ -100,14 +88,9 @@ export default function MobileNav() {
 
           {/* Footer with Search and Social */}
           <div className="p-6 md:p-8 border-t border-border/30 relative z-10 bg-background/80 backdrop-blur-sm">
-            {/* Search Bar */}
-            <div className="mb-6 md:mb-8">
-              <SearchModal variant="bar" className="w-full" />
-            </div>
-            
             {/* Social Links */}
-            <div className="flex space-x-6 md:space-x-8 mb-6 md:mb-8">
-              {socialLinks.map((social) => (
+            <div className="p-2.5 flex space-x-6 md:space-x-8 mb-6 md:mb-8">
+              {SOCIAL_LINKS.map((social) => (
                 <Link 
                   key={social.name}
                   href={social.href} 
@@ -131,7 +114,7 @@ export default function MobileNav() {
           </div>
 
           {/* Large Decorative Mark */}
-          <div className="absolute -bottom-20 -right-20 opacity-[0.02] pointer-events-none select-none z-0" aria-hidden="true">
+          <div className="absolute -bottom-20 -left-20 opacity-[0.02] pointer-events-none select-none z-0" aria-hidden="true">
             <span className="text-[25rem] md:text-[30rem] font-bold italic">L</span>
           </div>
         </SheetContent>
